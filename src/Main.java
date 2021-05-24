@@ -1,7 +1,8 @@
-import javax.crypto.spec.PSource;
-import java.io.Console;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import org.json.simple.JSONObject;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,6 +15,19 @@ public class Main {
 
         // create List for ToDos -> In new version write it in a file
         List<ToDo> todoList = new ArrayList<>();
+
+        // File Handling:
+        // Look for existing JSONFile
+        JSONObject jo = new JSONObject();
+        File jsonFile = checkFile();
+        try {
+            FileReader fRead = new FileReader(jsonFile);
+            fRead.read();
+        } catch (IOException e) {
+            out.println("[!] File can't be opened");
+            exit (1);
+        }
+
 
         // This generates the choosing Menu
         while (true) {
@@ -59,7 +73,7 @@ public class Main {
                         break;
                     }
 
-                    // Change the Taskname
+                    // Change the Task name
 
                     // Call the method to choose from a legal number, if number == -1: illegal number -> break
                     int toChange = checkListValue(todoList);
@@ -159,13 +173,26 @@ public class Main {
         }
     }
 
+    private static File checkFile() {
+        File file = new File("todo.json");
+        if (!file.isFile()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                out.println("[!] File could not be created, do you have the right to do so?");
+                exit(1);
+            }
+        }
+        return file;
+    }
+
     private static int checkListValue(List<ToDo> todoList) {
         Scanner sc = new Scanner(in);
         ConsoleStuff.listTasks(todoList);
         out.println();
         out.println("[!] Please choose which item:");
         out.print("[?] ");
-        int toCheck = -1;
+        int toCheck;
 
         // Check if input == integer
         try {
