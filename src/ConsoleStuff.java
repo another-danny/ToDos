@@ -1,5 +1,9 @@
 import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
+
+import static java.lang.System.in;
+import static java.lang.System.out;
 
 public class ConsoleStuff {
 
@@ -9,6 +13,7 @@ public class ConsoleStuff {
         pme("a", "add a new ToDo");
         pme("l", "list all ToDos");
         pme("d", "delete one or more ToDos");
+        pme("dd", "delete \"Done\" ToDos");
         pme("c", "change a ToDo");
         pme("cs", "change a ToDo-Status");
         pme("q", "quit the programm");
@@ -35,4 +40,21 @@ public class ConsoleStuff {
         System.out.flush();
 
     }
+
+    public static void printNotValidNumber(){
+        Scanner sc = new Scanner(in);
+        out.println("[!] This is not a number, please choose a valid number");
+        out.println();
+        System.out.print("<PRESS ENTER>");
+        sc.nextLine();
+    }
+
+    public static void printNumberOutOfBound() {
+        Scanner sc = new Scanner(in);
+        out.println("[!] This is not a number to choose from, please choose a legal object");
+        out.println();
+        System.out.print("<PRESS ENTER>");
+        sc.nextLine();
+    }
+
 }

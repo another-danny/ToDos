@@ -1,3 +1,5 @@
+import javax.crypto.spec.PSource;
+import java.io.Console;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,9 +74,59 @@ public class Main {
                     break;
 
                 case "cs":
+                    if (todoList.size() == 0) {
+                        out.println("[!] There is nothing to change yet!");
+                        out.println();
+                        System.out.print("<PRESS ENTER>");
+                        sc.nextLine();
+                        break;
+                    }
                     int toChangeStatus = checkListValue(todoList);
                     if (toChangeStatus == -1) {
                         break;
+                    }
+                    out.println();
+                    out.println("[!] Please choose a new Status");
+                    out.println("[1] New");
+                    out.println("[2] Ongoing");
+                    out.println("[3] Done");
+                    out.println();
+                    out.print("[?] ");
+
+                    // Switch case for the different statuses
+                    try {
+                        switch (sc.nextInt()) {
+                            case 1:
+                                sc.nextLine();
+                                todoList.get(toChangeStatus).status = ToDo.Status.New;
+                                ConsoleStuff.listTasks(todoList);
+                                out.println();
+                                System.out.print("<PRESS ENTER>");
+                                sc.nextLine();
+                                break;
+                            case 2:
+                                sc.nextLine();
+                                todoList.get(toChangeStatus).status = ToDo.Status.Ongoing;
+                                ConsoleStuff.listTasks(todoList);
+                                out.println();
+                                System.out.print("<PRESS ENTER>");
+                                sc.nextLine();
+                                break;
+                            case 3:
+                                sc.nextLine();
+                                todoList.get(toChangeStatus).status = ToDo.Status.Done;
+                                ConsoleStuff.listTasks(todoList);
+                                out.println();
+                                System.out.print("<PRESS ENTER>");
+                                sc.nextLine();
+                                break;
+                            default:
+                                ConsoleStuff.printNumberOutOfBound();
+                                break;
+
+                        }
+                    } catch (Exception e) {
+                        ConsoleStuff.printNotValidNumber();
                     }
                     break;
 
@@ -85,6 +137,24 @@ public class Main {
                         break;
                     }
                     todoList.remove(toDelete);
+                    break;
+
+                case "dd":
+                    ConsoleStuff.clear();
+                    out.println("[!] Really delete all Done-ToDos? (y/n)");
+                    out.print("[?] ");
+                    if ("y".equals(sc.nextLine())) {
+                        for (int i = 0; i < todoList.size(); i++) {
+                            if (todoList.get(i).status == ToDo.Status.Done) {
+                                todoList.remove(i);
+                            }
+                        }
+                    }
+                    ConsoleStuff.listTasks(todoList);
+                    out.println();
+                    System.out.print("<PRESS ENTER>");
+                    sc.nextLine();
+                    break;
             }
         }
     }
@@ -93,39 +163,29 @@ public class Main {
         Scanner sc = new Scanner(in);
         ConsoleStuff.listTasks(todoList);
         out.println();
-        out.println("[!] Please choose wich item:");
+        out.println("[!] Please choose which item:");
         out.print("[?] ");
         int toCheck = -1;
 
         // Check if input == integer
         try {
             toCheck = sc.nextInt();
+            sc.nextLine();
         } catch (Exception e) {
             // Close sc.nextInt()
             sc.nextLine();
-
-            out.println("[!] This is not a number, please choose a valid number");
-            out.println();
-            System.out.print("<PRESS ENTER>");
-            sc.nextLine();
+            ConsoleStuff.printNotValidNumber();
             return -1;
         }
-
-        // Close sc.nextInt()
-        sc.nextLine();
 
         // Since User != Programmer: Let them choose from 1 - EndOfList instead of 0-EndOfList
         toCheck--;
 
         // Check if Value in List
-        if (toCheck > todoList.size() || toCheck < 0) {
-            out.println("[!] This is not a number to choose from, please choose a legal object");
-            out.println();
-            System.out.print("<PRESS ENTER>");
-            sc.nextLine();
+        if (toCheck > (todoList.size() - 1) || toCheck < 0) {
+            ConsoleStuff.printNumberOutOfBound();
             return -1;
         }
-
         return toCheck;
     }
 }
