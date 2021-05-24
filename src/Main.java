@@ -1,33 +1,32 @@
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import org.json.simple.JSONObject;
 import java.util.List;
 import java.util.Scanner;
 
 import static java.lang.System.*;
 
 public class Main {
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
 
         // create List for ToDos -> In new version write it in a file
         List<ToDo> todoList = new ArrayList<>();
 
-        // File Handling:
-        // Look for existing JSONFile
-        JSONObject jo = new JSONObject();
-        File jsonFile = checkFile();
-        try {
-            FileReader fRead = new FileReader(jsonFile);
-            fRead.read();
-        } catch (IOException e) {
-            out.println("[!] File can't be opened");
-            exit (1);
-        }
-
+//        // File Handling:
+//        // Look for existing JSONFile
+//        JSONObject jo = new JSONObject();
+//
+//        File jsonFile = checkFile();
+//        try {
+//            FileReader fRead = new FileReader(jsonFile);
+//            fRead.read();
+//        } catch (IOException e) {
+//            out.println("[!] File can't be opened");
+//            exit(1);
+//        }
+//
 
         // This generates the choosing Menu
         while (true) {
@@ -58,6 +57,14 @@ public class Main {
                     break;
 
                 case "q":
+//                    // Safe to JSONfile
+//                    try (FileWriter file = new FileWriter(jsonFile)) {
+//                        file.write(JSONArray.toJSONString(todoList));
+//                        System.out.println("JSON Object write to a File successfully");
+//                        System.out.println("JSON Object: " + jo);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
                     // Quit
                     System.out.println("[*] Bye!");
                     exit(0);

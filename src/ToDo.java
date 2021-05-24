@@ -6,7 +6,7 @@ public class ToDo {
         this.status = stat;
     }
 
-    enum Status {
+    public enum Status {
         New,
         Ongoing,
         Done
